@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="dedibox (83766a12-19b2-402c-9194-d14b249f4c02)" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="dedibox (1) (531da5cd-5a98-4f99-8566-594e1abc7943)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.F1D6NWizst" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-dedibox" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-remoteexecution" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="dedibox (83766a12-19b2-402c-9194-d14b249f4c02)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/data/BGPGeoPo1" local="$PROJECT_DIR$" />
+            <mapping local="" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-dedibox" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-remoteexecution" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
