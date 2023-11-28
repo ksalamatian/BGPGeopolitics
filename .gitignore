@@ -1,0 +1,4 @@
+# Project exclude paths
+/cmake-build-debug-dedibox/
+/cmake-build-release/
+/cmake-build-remoteexecution/
