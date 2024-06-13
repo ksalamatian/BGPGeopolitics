@@ -94,7 +94,7 @@ int BGPSource::run() {
         /* Configure the broker interface options */
           bgpstream_data_interface_option_t *option =
             bgpstream_get_data_interface_option_by_name(bs, datasource_id, "cache-dir");
-          bgpstream_set_data_interface_option(bs, option, "/data/DumpCache");
+          bgpstream_set_data_interface_option(bs, option, "/run/user/1000/DumpCache");
         
         for (auto const &collector : collectors) {
             bgpstream_add_filter(bs, BGPSTREAM_FILTER_TYPE_COLLECTOR, collector.first.c_str());

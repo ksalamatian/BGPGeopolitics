@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 project(BGPGeopolitics)
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 17)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 #set(CMAKE_CXX_FLAGS_RELEASE "-O3")
@@ -13,7 +13,7 @@ include_directories(${MPI_INCLUDE_PATH})
 set(LIBTRACEIO "nothreads")
 
 find_package( Boost COMPONENTS thread system graph filesystem iostreams REQUIRED)
-include_directories( ${Boost_INCLUDE_DIRS} )
+include_directories( ${Boost_INCLUDE_DIR} )
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 link_directories(/usr/local/lib/)

@@ -36,15 +36,11 @@ bool BGPMessage::fill(long order, bgpstream_elem_t *elem, unsigned int time, std
     collector = incollector;
     if (type == BGPSTREAM_ELEM_TYPE_ANNOUNCEMENT || type == BGPSTREAM_ELEM_TYPE_RIB){
         bgpstream_as_path_iter_reset(&iter);
-        bool check =false;
         while ((seg = bgpstream_as_path_get_next_seg(elem->as_path, &iter)) != NULL) {
             switch (seg->type) {
                 case BGPSTREAM_AS_PATH_SEG_ASN:
                     asn = ((bgpstream_as_path_seg_asn_t *) seg)->asn;
                     asPath.push_back(asn);
-                    if (asn==47837)
-                        check=true;
-                    break;
                 case BGPSTREAM_AS_PATH_SEG_SET:
                     /* {A,B,C} */
  //                   cout<<"BGPSTREAM_AS_PATH_SEG_SET"<<endl;
@@ -66,10 +62,6 @@ bool BGPMessage::fill(long order, bgpstream_elem_t *elem, unsigned int time, std
             if (!res.first){
                 delete peer;
                 peer=res.second;
-            }
-            if (check){
-                cout<<"Peer:"<<elem->peer_asn<<", Path:"<<pathString()<<" ,pfx:"<<pfxString()<<endl;
-                check = false;
             }
             if (shortPath.size()==0) {
                 return false;
@@ -141,17 +133,22 @@ bool BGPMessage::setPath(unsigned int time){
 
 bool BGPMessage::shortenPath() {
     unsigned int prev = 0;
-    for (auto asn:asPath) {
-        if (asn > MAX_AS_NUMBER)
-            return false;
-        if (asn != prev) {
-            shortPath.push_back(asn);
-            prev = asn;
+    if (asPath.size()>0){
+        for (auto asn:asPath) {
+            if (asn > MAX_AS_NUMBER)
+                return false;
+            if (asn != prev) {
+                shortPath.push_back(asn);
+                prev = asn;
+            }
         }
+        shortPath.resize(shortPath.size());
+        return true;
+    } else {
+        return false;
     }
-    shortPath.resize(shortPath.size());
-    return true;
 }
+
 
 string BGPMessage::pathString(){
     string pathString;

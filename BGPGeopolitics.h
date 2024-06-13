@@ -12,12 +12,7 @@ extern "C" {
 //#include "cache.h"
 #include <string>
 #include "cache_structures.h"
-
-
 using namespace std;
-
-
-
 class BGPCache;
 class PrefixPath;
 typedef std::shared_ptr<PrefixPath> SPrefixPath;
@@ -27,11 +22,7 @@ class CollectorElement;
 class Peer;
 class AS;
 typedef std::shared_ptr<AS> SAS;
-
-
 enum Category{None=0, AADiff=1,AADup=2, WADup=3, WWDup=4, Flap=5, Withdrawn=6, IWithdrawn=7, STOP=8, UNDFND=9};
-
-
 
 class BGPMessage{
 public:

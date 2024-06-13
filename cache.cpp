@@ -14,6 +14,7 @@
 #include "bgpstream_utils_patricia.h"
 #include "json.hpp"
 #include <boost/algorithm/string.hpp>
+#include <chrono>
 
 
 
@@ -654,26 +655,32 @@ void AS::updateBGPView() {
     CURLcode res;
     string url="";
     string contents;
-    curl = curl_easy_init();
-    if (curl) {
-        url = "https://api.bgpview.io/asn/" + to_string(asNum);
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        /* example.com is redirected, so we tell libcurl to follow redirection */
-        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &contents);
-        /* Perform the request, res will get the return code */
-        res = curl_easy_perform(curl);
-        /* Check for errors */
-        if (res != CURLE_OK)
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
-                    curl_easy_strerror(res));
-        /* always cleanup */
-        curl_easy_cleanup(curl);
-    }
-    if (contents.find("503 Service Temporarily") == std::string::npos){
-        json j = json::parse(contents);
-        updateJSON(j);
+    bool done=false;
+    while (!done){
+        curl = curl_easy_init();
+        if (curl) {
+            url = "https://api.bgpview.io/asn/" + to_string(asNum);
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            /* example.com is redirected, so we tell libcurl to follow redirection */
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, handle_data);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &contents);
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
+            /* Check for errors */
+            if (res != CURLE_OK)
+                fprintf(stderr, "curl_easy_perform() failed: %s\n",
+                        curl_easy_strerror(res));
+            /* always cleanup */
+            curl_easy_cleanup(curl);
+        }
+        if ((contents.find("503 Service Temporarily") == std::string::npos) && (contents.find("Too Many Requests")== std::string::npos)) {
+            json j = json::parse(contents);
+            updateJSON(j);
+            done=true;
+        } else {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
     }
 }
 
